@@ -79,11 +79,11 @@ public class SearchFrame extends JFrame implements ActionListener {
             }
         }
         if(!modpackNames.isEmpty()){
-            Main.search.setVisible(false);
+            StartingFrame.search.setVisible(false);
             select = new SelectFrame(modpackNames);
 
         }else{
-            JOptionPane.showMessageDialog(Main.search, "No modpacks found.");
+            JOptionPane.showMessageDialog(StartingFrame.search, "No modpacks found.");
         }
 
     }

@@ -67,6 +67,8 @@ public class MainFrame extends JFrame implements ActionListener {
         this.setVisible(true);
         this.getContentPane().setBackground(Color.GRAY);
     }
+
+
     /* Shoutout to this guy: https://stackoverflow.com/a/5368745/14269129 */
     public void copy(File sourceLocation, File targetLocation) throws IOException {
         if (sourceLocation.isDirectory()) {
@@ -125,6 +127,13 @@ public class MainFrame extends JFrame implements ActionListener {
                 ex.printStackTrace();
             }finally {
                 try {
+                    // write the modpackName to a file that is located in a specific folder
+                    File file = new File(path.getAbsolutePath() + "/modpacks.txt");
+                    FileWriter fw = new FileWriter(file, true);
+                    BufferedWriter bw = new BufferedWriter(fw);
+                    bw.write(modpackName + "\n");
+                    bw.close();
+
                     folderName = modpackName.replaceAll("[^A-Za-z0-9\",]|,(?!(([^\"]*\"){2})*[^\"]*$)", "").replace("\"", "").replace(",", "").replace(" ", "");
                     new ZipFile(Paths.get(path.getAbsolutePath() + "/modpack.zip").toFile())
                             .extractAll(Paths.get(path.getAbsolutePath() + "/unzip/").toString());
@@ -138,8 +147,8 @@ public class MainFrame extends JFrame implements ActionListener {
                     new File(path.getAbsolutePath() + "/" + folderName + "/" + ".minecraft/mods").mkdir();
                     new File(path.getAbsolutePath() + "/" + folderName + "/" + ".minecraft/versions").mkdir();
                     if(new File(path.getAbsolutePath() + "/unzip/manifest.json").exists()){
-                        File file = new File(path.getAbsolutePath() + "/unzip/manifest.json");
-                        Scanner reader = new Scanner(file);
+                        File fa = new File(path.getAbsolutePath() + "/unzip/manifest.json");
+                        Scanner reader = new Scanner(fa);
                         String text = "";
                         while (reader.hasNextLine()) {
                             text = text + reader.nextLine();

@@ -10,9 +10,9 @@ public class SelectFrame extends JFrame implements ActionListener {
     int xLoc = 0;
     MainFrame frame;
     public SelectFrame(ArrayList<String> info){
-        this.setLocationRelativeTo(Main.search);
+        this.setLocationRelativeTo(StartingFrame.search);
        // Main.search.dispose();
-        this.setLocation(Main.search.getLocation());
+        this.setLocation(StartingFrame.search.getLocation());
         int width = 800, height = 500;
         info.forEach(i -> {
             String modpackName = i.split("A:W:B]")[0];
@@ -44,7 +44,7 @@ public class SelectFrame extends JFrame implements ActionListener {
         if(e.getSource() instanceof JButton){
             JButton btn = (JButton) e.getSource();
             if(btn.getToolTipText() != null){
-                Main.search.dispose();
+                StartingFrame.search.dispose();
 
                 String[] info = {btn.getToolTipText(), btn.getText()};
                 System.out.println("Selected: " + btn.getText());
