@@ -17,10 +17,7 @@ import java.net.URL;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
+import java.nio.file.*;
 import java.util.Scanner;
 
 public class MainFrame extends JFrame implements ActionListener {
@@ -127,12 +124,8 @@ public class MainFrame extends JFrame implements ActionListener {
                 ex.printStackTrace();
             }finally {
                 try {
-                    // write the modpackName to a file that is located in a specific folder
-                    File file = new File(path.getAbsolutePath() + "/modpacks.txt");
-                    FileWriter fw = new FileWriter(file, true);
-                    BufferedWriter bw = new BufferedWriter(fw);
-                    bw.write(modpackName + "\n");
-                    bw.close();
+                    // write the modpackName to a file that is located in a specific folder and dont overwrite in the file
+                    Files.write(Paths.get(path.getAbsolutePath() + "/modpack.txt"), modpackName.getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
 
                     folderName = modpackName.replaceAll("[^A-Za-z0-9\",]|,(?!(([^\"]*\"){2})*[^\"]*$)", "").replace("\"", "").replace(",", "").replace(" ", "");
                     new ZipFile(Paths.get(path.getAbsolutePath() + "/modpack.zip").toFile())
