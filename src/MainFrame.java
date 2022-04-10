@@ -125,7 +125,7 @@ public class MainFrame extends JFrame implements ActionListener {
             }finally {
                 try {
                     // write the modpackName to a file that is located in a specific folder and dont overwrite in the file
-                    Files.write(Paths.get(path.getAbsolutePath() + "/modpack.txt"), modpackName.getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+                    Files.write(Paths.get(path.getAbsolutePath() + "/modpack.txt" + "\n"), modpackName.getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
 
                     folderName = modpackName.replaceAll("[^A-Za-z0-9\",]|,(?!(([^\"]*\"){2})*[^\"]*$)", "").replace("\"", "").replace(",", "").replace(" ", "");
                     new ZipFile(Paths.get(path.getAbsolutePath() + "/modpack.zip").toFile())
@@ -196,7 +196,8 @@ public class MainFrame extends JFrame implements ActionListener {
             }
         }
     }
-    public static void downloadMod(String responce){
+
+    private static void downloadMod(String responce) {
         try {
             JSONObject jsonObject = new JSONObject(responce);
             String downloadLink = jsonObject.get("downloadUrl").toString();
@@ -212,8 +213,28 @@ public class MainFrame extends JFrame implements ActionListener {
             }
         }catch (JSONException e){
             System.out.println("Err with the json: " + responce + " Retrying...");
-            downloadMod(responce);
+            downloadMod(responce, true);
+        }
+    }
+
+    public static void downloadMod(String responce, boolean retry){
+        try {
+            JSONObject jsonObject = new JSONObject(responce);
+            String downloadLink = jsonObject.get("downloadUrl").toString();
+            String fileName = jsonObject.get("fileName").toString();
+            InputStream inputStream = null;
+            try {
+                System.out.println("Downloading " + fileName);
+                inputStream = new URL(downloadLink).openStream();
+                Files.copy(inputStream, Paths.get(path.getAbsolutePath() + "/" + folderName + "/" + ".minecraft/mods/" + fileName), StandardCopyOption.REPLACE_EXISTING);
+                inputStream.close();
+            } catch (IOException ex){
+                ex.printStackTrace();
+            }
+        }catch (JSONException e){
+            System.out.println("Err with the json even after retrying: " + responce);
         }
 
     }
+
 }
