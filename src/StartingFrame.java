@@ -7,8 +7,7 @@ import java.awt.event.ActionListener;
 public class StartingFrame extends JFrame implements ActionListener {
     public static SearchFrame search;
     JButton newModpack = new JButton("Install new modpack");
-    public static SearchFrame searchFrame;
-    JButton launchModpack = new JButton("Launch a modpack");
+    JButton configure_modpacks = new JButton("Configure modpacks");
     public StartingFrame() {
         Border border = BorderFactory.createLineBorder(Color.RED, 3);
         int width = 800, height = 500;
@@ -21,17 +20,17 @@ public class StartingFrame extends JFrame implements ActionListener {
         newModpack.setLocation((width / 2) - (newModpack.getWidth() / 2),(height/2) - (newModpack.getHeight()/2) - 40);
         newModpack.setFocusable(false);
         newModpack.addActionListener(this);
-        launchModpack.setBounds(0,0, 180, 40);
-        launchModpack.setLocation((width / 2) - (launchModpack.getWidth() / 2),(height/2) - (launchModpack.getHeight()/2) + 40);
-        launchModpack.setFocusable(false);
-        launchModpack.addActionListener(this);
+        configure_modpacks.setBounds(0,0, 180, 40);
+        configure_modpacks.setLocation((width / 2) - (configure_modpacks.getWidth() / 2),(height/2) - (configure_modpacks.getHeight()/2) + 40);
+        configure_modpacks.setFocusable(false);
+        configure_modpacks.addActionListener(this);
         this.setSize(width,height);
         this.setLayout(null);
         this.setTitle("LinuxCurse");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         this.add(newModpack);
-        this.add(launchModpack);
+        this.add(configure_modpacks);
 
         this.setVisible(true);
         this.getContentPane().setBackground(Color.GRAY);
@@ -41,9 +40,9 @@ public class StartingFrame extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == newModpack) {
             this.dispose();
-            new SearchFrame();
+            search = new SearchFrame();
         }
-        if(e.getSource() == launchModpack) {
+        if(e.getSource() == configure_modpacks) {
             this.dispose();
             new LaunchFrame();
         }
